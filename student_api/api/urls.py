@@ -5,5 +5,6 @@ urlpatterns = [
     path('student',views.studentview),
     path('student/<int:pk>/',views.studentdetail),
 
-    path('employee',views.employee.as_view()),
+    path('employee',views.Employees.as_view()),
+    path('employee/<int:pk>/',views.Employedetail.as_view()),
 ]
