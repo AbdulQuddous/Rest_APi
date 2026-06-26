@@ -6,7 +6,7 @@ from .serializers import StudentSerializer,employeeserializer
 from rest_framework.views import APIView
 from employee.models import Employee
 from django.http import Http404
-
+from rest_framework import mixins , generics
 @api_view(['GET' , 'POST'])
 def studentview(request):
     if request.method == "GET":
@@ -45,18 +45,18 @@ def studentdetail(request , pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class Employees(APIView):
-    def get(self , request):
-        employees = Employee.objects.all()
-        serializer = employeeserializer(employees , many = True)
-        return Response(serializer.data , status=status.HTTP_200_OK)
+# class Employees(APIView):
+#     def get(self , request):
+#         employees = Employee.objects.all()
+#         serializer = employeeserializer(employees , many = True)
+#         return Response(serializer.data , status=status.HTTP_200_OK)
     
-    def post(self , request):
-        serializer = employeeserializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data , status=status.HTTP_201_CREATED)
-        return Response(serializer.errors , status=status.HTTP_400_BAD_REQUEST)
+#     def post(self , request):
+#         serializer = employeeserializer(data = request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data , status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors , status=status.HTTP_400_BAD_REQUEST)
 
 class Employedetail(APIView):
     def get_object(self , pk):
@@ -82,3 +82,13 @@ class Employedetail(APIView):
         employee = self.get_object(pk)
         employee.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class Employees(mixins.ListModelMixin , mixins.CreateModelMixin , generics.GenericAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = employeeserializer
+
+    def get(self ,request):
+        return self.list(request)
+    
+    def post(self ,request):
+        return self.create(request)
