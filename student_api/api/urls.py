@@ -1,14 +1,14 @@
-from django.urls import path,include
-from . import views
-from .views import emoloyee
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-router = DefaultRouter()
-router.register('employee',emoloyee , basename='employee' )
-urlpatterns = [
-    path('student',views.studentview),
-    path('student/<int:pk>/',views.studentdetail),
+from .views import EmployeeViewSet, studentview, studentdetail, blog , comment
 
-    # path('employee',views.Employees.as_view()),
-    # path('employee/<int:pk>/',views.Employedetail.as_view()),
-    path('',include(router.urls))
+router = DefaultRouter()
+router.register('employee', EmployeeViewSet, basename='employee')
+
+urlpatterns = [
+    path('student/', studentview),
+    path('student/<int:pk>/', studentdetail),
+    path('', include(router.urls)),
+    path('blog/', blog.as_view()),
+    path('comment/', comment.as_view()),
 ]

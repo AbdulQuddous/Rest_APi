@@ -8,6 +8,8 @@ from employee.models import Employee
 from django.http import Http404
 from rest_framework import mixins , generics
 from rest_framework import viewsets
+from blog.models import Blog , Comment
+from blog.serializer import Blogserializer , Commentserializer
 
 
 @api_view(['GET' , 'POST'])
@@ -112,8 +114,20 @@ def studentdetail(request , pk):
 #     def delete(self, request ,pk):
 #         return self.destroy(request , pk)
 
-class emoloyee(viewsets.ModelViewSet):
+
+
+#viewset using model viewset
+class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = employeeserializer
     
-    
+
+#using generic
+class blog(generics.ListCreateAPIView):
+    queryset= Blog.objects.all()
+    serializer_class  = Blogserializer
+
+
+class comment(generics.ListCreateAPIView):
+    queryset= Comment.objects.all()
+    serializer_class  = Commentserializer
