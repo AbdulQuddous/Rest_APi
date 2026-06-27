@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import EmployeeViewSet, studentview, studentdetail, blog , comment
+from .views import EmployeeViewSet, studentview, studentdetail, blog , comment , Blogdetail ,commentdetail
 
 router = DefaultRouter()
 router.register('employee', EmployeeViewSet, basename='employee')
@@ -11,4 +11,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('blog/', blog.as_view()),
     path('comment/', comment.as_view()),
+    path('blog/<int:pk>/', Blogdetail.as_view()),
+    path('comment/<int:pk>/', commentdetail.as_view()),
 ]
