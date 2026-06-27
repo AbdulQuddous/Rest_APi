@@ -7,6 +7,9 @@ from rest_framework.views import APIView
 from employee.models import Employee
 from django.http import Http404
 from rest_framework import mixins , generics
+from rest_framework import viewsets
+
+
 @api_view(['GET' , 'POST'])
 def studentview(request):
     if request.method == "GET":
@@ -83,29 +86,34 @@ def studentdetail(request , pk):
 #         employee.delete()
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class Employees(mixins.ListModelMixin , mixins.CreateModelMixin , generics.GenericAPIView):
+# class Employees(mixins.ListModelMixin , mixins.CreateModelMixin , generics.GenericAPIView):
+#     queryset = Employee.objects.all()
+#     serializer_class = employeeserializer
+
+#     def get(self ,request):
+#         return self.list(request)
+    
+#     def post(self ,request):
+#         return self.create(request)
+    
+# class Employedetail(mixins.UpdateModelMixin , mixins.DestroyModelMixin , mixins.RetrieveModelMixin , generics.GenericAPIView):
+#     queryset = Employee.objects.all()
+#     serializer_class = employeeserializer
+
+#     def get(self, request ,pk):
+#         return self.retrieve(request , pk)
+    
+#     def put(self, request ,pk):
+#         return self.update(request , pk)
+    
+#     def patch(self, request ,pk):
+#         return self.update(request , pk)
+    
+#     def delete(self, request ,pk):
+#         return self.destroy(request , pk)
+
+class emoloyee(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = employeeserializer
-
-    def get(self ,request):
-        return self.list(request)
     
-    def post(self ,request):
-        return self.create(request)
-    
-class Employedetail(mixins.UpdateModelMixin , mixins.DestroyModelMixin , mixins.RetrieveModelMixin , generics.GenericAPIView):
-    queryset = Employee.objects.all()
-    serializer_class = employeeserializer
-
-    def get(self, request ,pk):
-        return self.retrieve(request , pk)
-    
-    def put(self, request ,pk):
-        return self.update(request , pk)
-    
-    def patch(self, request ,pk):
-        return self.update(request , pk)
-    
-    def delete(self, request ,pk):
-        return self.destroy(request , pk)
     
